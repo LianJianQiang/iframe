@@ -17,7 +17,7 @@
         var btn_child=document.getElementById("btn_child");
         var sendData={text:'我是iframe里面的数据'};
         btn_child.onclick=function(){
-            window.parent.postMessage(JSON.stringify(sendData),'http://127.0.0.1:4100/page1/index.html');//数据发送
+            window.parent.postMessage(JSON.stringify(sendData),'http://192.168.100.40:4100/page1/index.html');//数据发送
         }
 
         function bind(obj, evname, fn) {
