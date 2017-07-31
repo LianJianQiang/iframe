@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'/>
+    <title>Page_1</title>
+</head>
+<body style="background: palegoldenrod;">
+<div style="width:100%;height:100px;">这是父页面</div>
+<iframe id="page_1" src="http://127.0.0.1:4200/page2/index.html" width="100%"  style="padding:0px; min-height:580px;"></iframe>
+<div id="btn_father" style="border:1px solid #999;padding: 10px 50px;display: inline-block;cursor:pointer">打开console，点击后向子页面发送数据</div>
+<script>
+    window.onload=function () {
+        var btn_father=document.getElementById('btn_father');
+        var sendData={
+            text:'这是父页面的数据'
+        }
+        btn_father.onclick=function(){
+            window.frames[0].postMessage(sendData,'http://127.0.0.1:4200/page2/index.html');//数据发送
+        }
+
+        function bind(obj, evname, fn) {
+            if (obj.addEventListener) {
+                obj.addEventListener(evname, fn, false);
+            } else {
+                obj.attachEvent("on" + evname, function () {
+                    fn.call(obj);
+                })
+            }
+        }
+        //监听是否有数据发送进来，有调用function
+        bind(window,'message',function(e) {
+            var data = e.data;
+            console.log('我是父页面，这是子页面发送的数据：'+JSON.stringify(data));
+            console.log(data.text)
+            console.log('-------------------')
+        })
+
+
+
+    }
+
+
+
+
+</script>
+</body>
+</html>

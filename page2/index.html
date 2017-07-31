@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+    <title>Page_2</title>
+    <meta charset="utf-8">
+</head>
+<body style="background: #fff">
+<h3>这是子页面</h3>
+<ul>
+    <div id="btn_child" style="border:1px solid #eee;padding: 10px 50px;display: inline-block;cursor:pointer">打开控制台，并点击</div>
+
+</ul>
+<script>
+
+    window.onload=function(){
+
+        var btn_child=document.getElementById("btn_child");
+        var sendData={text:'我是iframe里面的数据'};
+        btn_child.onclick=function(){
+            window.parent.postMessage(sendData,'http://127.0.0.1:4100/page1/index.html');//数据发送
+        }
+
+        function bind(obj, evname, fn) {
+            if (obj.addEventListener) {
+                obj.addEventListener(evname, fn, false);
+            } else {
+                obj.attachEvent("on" + evname, function () {
+                    fn.call(obj);
+                })
+            }
+        }
+
+
+        bind(window,'message',function(e) {
+            if(e.source!=window.parent) return;
+            var data = e.data;
+            console.log('我是子页面，这是父页面发送的数据：'+JSON.stringify(data));
+            console.log(data.text)
+            console.log('------------------')
+        })
+
+
+
+    }
+
+</script>
+</body>
+</html>
