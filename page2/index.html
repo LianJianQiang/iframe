@@ -6,6 +6,7 @@
 </head>
 <body style="background: #fff">
 <h3>这是子页面</h3>
+<div id="cont_child"></div>
 <ul>
     <div id="btn_child" style="border:1px solid #eee;padding: 10px 50px;display: inline-block;cursor:pointer">打开控制台，并点击</div>
 
@@ -15,6 +16,7 @@
     window.onload=function(){
 
         var btn_child=document.getElementById("btn_child");
+        var cont_child=document.getElementById("cont_child");
         var sendData={text:'我是iframe里面的数据'};
         btn_child.onclick=function(){
             window.parent.postMessage(JSON.stringify(sendData),'http://192.168.100.40:4100/page1/index.html');//数据发送
@@ -37,6 +39,7 @@
             var data = JSON.parse(e.data);
             console.log('我是子页面，这是父页面发送的数据：'+data);
             console.log(data.text)
+            cont_child.innerHTML=data.text;
             console.log('------------------')
         })
 
