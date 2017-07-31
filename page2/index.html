@@ -17,7 +17,7 @@
         var btn_child=document.getElementById("btn_child");
         var sendData={text:'我是iframe里面的数据'};
         btn_child.onclick=function(){
-            window.parent.postMessage(sendData,'http://127.0.0.1:4100/page1/index.html');//数据发送
+            window.parent.postMessage(JSON.stringify(sendData),'http://127.0.0.1:4100/page1/index.html');//数据发送
         }
 
         function bind(obj, evname, fn) {
@@ -32,9 +32,10 @@
 
 
         bind(window,'message',function(e) {
+            var e=window.event || arguments[0];
             if(e.source!=window.parent) return;
-            var data = e.data;
-            console.log('我是子页面，这是父页面发送的数据：'+JSON.stringify(data));
+            var data = JSON.parse(e.data);
+            console.log('我是子页面，这是父页面发送的数据：'+data);
             console.log(data.text)
             console.log('------------------')
         })
